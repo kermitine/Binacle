@@ -7,6 +7,7 @@ the GNU AGPL-3.0-or-later. See LICENSE and README for more details.
 
 import requests
 from data.data import *
+from data.multipliers import *
 
 friendly_pokemon_list = []
 enemy_pokemon_list = []
@@ -101,13 +102,22 @@ def calculate_weakness_multiplier(defending_pokemon_types, attacking_move_type):
     return weakness # higher number means move is more effective
 
 
+load_presets = input("Would you like to load your preset pokemon? (y/n): ")
 
 
+if load_presets.strip().lower() == 'y':
+    print('Loading presets...')
+    for x in range(len(presets)):
+        pokemon_name = presets[x]['name']
+        pokemon_moveset = presets[x]['moveset']
+        friendly_pokemon_list.append(initialize_pokemon(pokemon_name, pokemon_moveset, False))
 
-for x in range (3): # initialize pokemon
-    pokemon_name = input("Enter your pokemon's name: ")
-    pokemon_moveset = input("Enter Pokemon's moveset, seperated by commas. (ex: Astonish, Dynamic Punch, Sand Tomb): ")
-    friendly_pokemon_list.append(initialize_pokemon(pokemon_name, pokemon_moveset, False))
+
+else:
+    for x in range (3): # initialize pokemon
+        pokemon_name = input("Enter your pokemon's name: ")
+        pokemon_moveset = input("Enter Pokemon's moveset, seperated by commas. (ex: Astonish, Dynamic Punch, Sand Tomb): ")
+        friendly_pokemon_list.append(initialize_pokemon(pokemon_name, pokemon_moveset, False))
 
 
 print(friendly_pokemon_list)
@@ -126,21 +136,21 @@ while True:
         enemy_pokemon_list.append(initialize_pokemon(pokemon_name, None, True))
 
 
-        highest_weakness = 0
-        optimal_pokemon_index = 0
-        move_index = 0
+        moves_effectiveness_lists_unsorted = []
         # go through each move for each pokemon. the name of the pokemon and highest overall weakness move will be saved
         for friendly_pokemon_index in range(len(friendly_pokemon_list)):
             for move_type_index in range(len(friendly_pokemon_list[friendly_pokemon_index]['move_types'])):
                 current_move_type = friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index]
                 weakness = calculate_weakness_multiplier(enemy_pokemon_list[enemy_pokemon_index]['types'], friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index])
-                if weakness > highest_weakness:
-                    highest_weakness = weakness
-                    optimal_pokemon_index = friendly_pokemon_index
-                    move_index = move_type_index
+                moves_effectiveness_lists_unsorted.append([weakness, friendly_pokemon_index, move_type_index])
 
-        print(f'Best move: {friendly_pokemon_list[optimal_pokemon_index]['moves'][move_index]} ({friendly_pokemon_list[optimal_pokemon_index]['name']}) with effectiveness of {round(highest_weakness, 3)}x')
+        moves_effectiveness_lists_sorted = sorted(moves_effectiveness_lists_unsorted, key=lambda sublist: sublist[0], reverse=True)
 
+        number = 1
+        print('Best pokemon ranked:')
+        for sorted_list in moves_effectiveness_lists_sorted:
+            print(f'{number}) {friendly_pokemon_list[sorted_list[1]]['name']}: {friendly_pokemon_list[sorted_list[1]]['moves'][sorted_list[2]]} ({round(sorted_list[0], 3)}x)')
+            number += 1
 
 
 
