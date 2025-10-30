@@ -142,14 +142,14 @@ while True:
             for move_type_index in range(len(friendly_pokemon_list[friendly_pokemon_index]['move_types'])):
                 current_move_type = friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index]
                 weakness = calculate_weakness_multiplier(enemy_pokemon_list[enemy_pokemon_index]['types'], friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index])
-                moves_effectiveness_lists_unsorted.append([weakness, friendly_pokemon_index, move_type_index])
+                moves_effectiveness_lists_unsorted.append([friendly_pokemon_index, move_type_index, weakness])
 
-        moves_effectiveness_lists_sorted = sorted(moves_effectiveness_lists_unsorted, key=lambda sublist: sublist[0], reverse=True)
+        moves_effectiveness_lists_sorted = sorted(moves_effectiveness_lists_unsorted, key=lambda sublist: sublist[2], reverse=True)
 
         number = 1
         print('Best pokemon ranked:')
         for sorted_list in moves_effectiveness_lists_sorted:
-            print(f'{number}) {friendly_pokemon_list[sorted_list[1]]['name']}: {friendly_pokemon_list[sorted_list[1]]['moves'][sorted_list[2]]} ({round(sorted_list[0], 3)}x)')
+            print(f'{number}) {friendly_pokemon_list[sorted_list[0]]['name']}: {friendly_pokemon_list[sorted_list[0]]['moves'][sorted_list[1]]} ({round(sorted_list[2], 3)}x)')
             number += 1
 
 

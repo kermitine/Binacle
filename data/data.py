@@ -4,7 +4,7 @@ is apart of the Binacle project, and licensed under
 the GNU AGPL-3.0-or-later. See LICENSE and README for more details.
 """
 
-version = '0.2.0'
+version = '0.2.1'
 
 presets = [
     {'name': 'dusknoir',
