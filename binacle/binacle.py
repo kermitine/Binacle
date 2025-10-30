@@ -4,7 +4,7 @@ is apart of the Binacle project, and licensed under
 the GNU AGPL-3.0-or-later. See LICENSE and README for more details.
 """
 
-version = '0.0.1'
+version = '0.0.2'
 
 import requests
 
@@ -60,9 +60,10 @@ def initialize_pokemon(name, moveset_string):
     'move_types': []
     }
 
+    pokemon_info = get_pokemon_info(name)
 
-    pokemon_dict['name'] = get_pokemon_info(name)['name']
-    pokemon_dict['types'].append(get_pokemon_info(name)['types'])
+    pokemon_dict['name'] = pokemon_info['name']
+    pokemon_dict['types'].append(pokemon_info['types'])
 
     moves = extract_moves(moveset_string)
     pokemon_dict['moves'] = moves
