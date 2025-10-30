@@ -60,7 +60,7 @@ def initialize_pokemon(name, moveset_string, is_enemy):
         pokemon_info = get_pokemon_info(name)
 
         pokemon_dict['name'] = pokemon_info['name']
-        pokemon_dict['types'].append(pokemon_info['types'])
+        pokemon_dict['types'] = pokemon_info['types']
 
         return pokemon_dict
 
@@ -75,7 +75,7 @@ def initialize_pokemon(name, moveset_string, is_enemy):
         pokemon_info = get_pokemon_info(name)
 
         pokemon_dict['name'] = pokemon_info['name']
-        pokemon_dict['types'].append(pokemon_info['types'])
+        pokemon_dict['types'] = pokemon_info['types']
 
         moves = extract_moves(moveset_string)
         pokemon_dict['moves'] = moves
@@ -133,7 +133,7 @@ while True:
         for friendly_pokemon_index in range(len(friendly_pokemon_list)):
             for move_type_index in range(len(friendly_pokemon_list[friendly_pokemon_index]['move_types'])):
                 current_move_type = friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index]
-                weakness = calculate_weakness_multiplier(enemy_pokemon_list[enemy_pokemon_index]['types'][0], friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index])
+                weakness = calculate_weakness_multiplier(enemy_pokemon_list[enemy_pokemon_index]['types'], friendly_pokemon_list[friendly_pokemon_index]['move_types'][move_type_index])
                 if weakness > highest_weakness:
                     highest_weakness = weakness
                     optimal_pokemon_index = friendly_pokemon_index
