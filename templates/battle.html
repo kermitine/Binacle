@@ -5,18 +5,20 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>3v3 Battle Analyzer</h1>
+  <h1 id="fontone">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
 
   {% if error %}
     <p style="color:red">{{ error }}</p>
   {% endif %}
 
   {% if enemies|length < 3 %}
+  <div class="fieldset-container">
     <form method="POST">
-      <label>Enter Opponent Pokémon #{{ enemies|length + 1 }}:</label>
+      <label id="fontone">Enter Opponent Pokémon #{{ enemies|length + 1 }}:</label>
       <input type="text" name="enemy_name" required>
-      <button type="submit">Analyze</button>
+      <button id='fontone' class='start-battle' style='font-size: 18px;' type="submit">Analyze</button>
     </form>
+  </div>
   {% else %}
     <p><b>All 3 enemy Pokémon entered!</b></p>
   {% endif %}
@@ -56,18 +58,10 @@
 
 
 
-  <div class="row">
-  <div class="column">
-    <img src="{{ friendly_sprites[0] }}" alt="pokemon1" style="width:95%">
-  </div>
-  <div class="column">
-    <img src="{{ friendly_sprites[1] }}" alt="pokemon2" style="width:95%">
-  </div>
-  <div class="column">
-    <img src="{{ friendly_sprites[2] }}" alt="pokemon3" style="width:95%">
-  </div>
-</div>
+  <img src='{{ friendly_sprites[0] }}'>
+  <img src='{{ friendly_sprites[1] }}'>
+  <img src='{{ friendly_sprites[2] }}'>
 
-  <br><a href="{{ url_for('reset') }}">Restart Entire Battle</a>
+  <br><a href="{{ url_for('reset') }}" id="fontone">Restart Entire Battle</a>
 </body>
 </html>
