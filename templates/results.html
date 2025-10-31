@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Binacle | Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Effectiveness vs {{ enemy.name.title() }}</h1>
+  <table border="1" cellpadding="5">
+    <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
+    {% for r in results %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ r.pokemon }}</td>
+        <td>{{ r.move }}</td>
+        <td>{{ r.type }}</td>
+        <td>x{{ '%.2f'|format(r.multiplier) }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <br>
+  <a href="{{ url_for('battle') }}">Add Next Opponent</a> |
+  <a href="{{ url_for('reset') }}">Restart</a>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Binacle | Battle</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>3v3 Battle Analyzer</h1>
+
+  {% if error %}
+    <p style="color:red">{{ error }}</p>
+  {% endif %}
+
+  {% if enemies|length < 3 %}
+    <form method="POST">
+      <label>Enter Opponent Pokémon #{{ enemies|length + 1 }}:</label>
+      <input type="text" name="enemy_name" required>
+      <button type="submit">Analyze</button>
+    </form>
+  {% else %}
+    <p><b>All 3 enemy Pokémon entered!</b></p>
+  {% endif %}
+
+  {% if enemies %}
+    <h3>Enemies so far:</h3>
+    <ul>
+      {% for e in enemies %}
+        <li>{{ e.name.title() }} ({{ e.types|join(', ') }})</li>
+      {% endfor %}
+    </ul>
+    <form method="POST">
+      <button type="submit" name="reset_enemies">Reset Enemies</button>
+    </form>
+  {% endif %}
+
+  {% if all_results %}
+    <hr>
+    <h2>Battle Results</h2>
+    {% for block in all_results %}
+      <h3>Best Moves vs {{ block.enemy.name.title() }}</h3>
+      <table border="1" cellpadding="5">
+        <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
+        {% for r in block.results %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ r.pokemon }}</td>
+            <td>{{ r.move }}</td>
+            <td>{{ r.type }}</td>
+            <td>x{{ '%.2f'|format(r.multiplier) }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+      <br>
+    {% endfor %}
+  {% endif %}
+
+  <br><a href="{{ url_for('reset') }}">Restart Entire Battle</a>
+</body>
+</html>
