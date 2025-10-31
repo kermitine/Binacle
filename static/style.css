@@ -63,3 +63,20 @@ button:hover {
   clear: both;
   display: table;
 }
+
+.restartbattle {
+    background-color: #ffcb05;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+    color: black;   
+
+
+}
+
+.restartbattle:hover {
+    background-color: #f2b807;
+
+}

@@ -24,31 +24,31 @@
   {% endif %}
 
   {% if enemies %}
-    <h3>Enemies so far:</h3>
+    <h3 id="fontone">Enemies entered so far:</h3>
     <ul>
       {% for e in enemies %}
-        <li>{{ e.name.title() }} ({{ e.types|join(', ') }})</li>
+        <li id="fontone">{{ e.name.title() }} ({{ e.types|join(', ') }})</li>
       {% endfor %}
     </ul>
     <form method="POST">
-      <button type="submit" name="reset_enemies">Reset Enemies</button>
+      <button type="submit" name="reset_enemies" id="fontone" class="start-battle" style="font-size: 18px;">Reset Enemies</button>
     </form>
   {% endif %}
 
   {% if all_results %}
     <hr>
-    <h2>Battle Results</h2>
+    <h2 id="fontone">Battle Results</h2>
     {% for block in all_results %}
-      <h3>Best Moves vs {{ block.enemy.name.title() }}</h3>
-      <table border="1" cellpadding="5">
+      <h3 id="fontone">Best Moves vs {{ block.enemy.name.title() }}</h3>
+      <table border="1" cellpadding="5" style="background-color: white;">
         <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
         {% for r in block.results %}
           <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ r.pokemon }}</td>
-            <td>{{ r.move }}</td>
-            <td>{{ r.type }}</td>
-            <td>x{{ '%.2f'|format(r.multiplier) }}</td>
+            <td id="fontone">{{ loop.index }}</td>
+            <td id="fontone">{{ r.pokemon }}</td>
+            <td id="fontone">{{ r.move }}</td>
+            <td id="fontone">{{ r.type }}</td>
+            <td id="fontone">x{{ '%.2f'|format(r.multiplier) }}</td>
           </tr>
         {% endfor %}
       </table>
@@ -61,7 +61,7 @@
   <img src='{{ friendly_sprites[0] }}'>
   <img src='{{ friendly_sprites[1] }}'>
   <img src='{{ friendly_sprites[2] }}'>
-
-  <br><a href="{{ url_for('reset') }}" id="fontone">Restart Entire Battle</a>
+  <br>
+  <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle">Restart Entire Battle</a>
 </body>
 </html>

@@ -48,7 +48,7 @@ def initialize_pokemon(name, moveset_string, is_enemy):
         return None
 
     pokemon = {"name": info["name"], "types": info["types"], 'sprite_url': info['sprite_url']}
-    print(pokemon['sprite_url'])
+    print(f'got sprite {pokemon['sprite_url']}')
 
     if not is_enemy:
         moves = extract_moves(moveset_string)
