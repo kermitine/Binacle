@@ -5,19 +5,22 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>Binacle 3v3 Battle Setup</h1>
+  <h1 id="fontone">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
   {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
   <form method="POST">
     {% for i in range(1,4) %}
-      <fieldset>
-        <legend>Your Pokémon {{ i }}</legend>
-        <label>Name:</label>
-        <input type="text" name="name{{ i }}" required><br>
-        <label>Moves (comma-separated):</label>
-        <input type="text" name="moves{{ i }}" required><br>
-      </fieldset><br>
+    <div class="fieldset-container">
+        <fieldset>
+            <legend id="fontone">Your Pokémon {{ i }}</legend>
+            <label id="fontone">Name:</label>
+            <input id ="fontone" type="text" name="name{{ i }}" required><br>
+            <br>
+            <label id="fontone">Moves (comma-separated):</label>
+            <input id='fontone' type="text" name="moves{{ i }}" required><br>
+        </fieldset><br>
+    </div>
     {% endfor %}
-    <button type="submit">Start Battle</button>
+    <button id='fontone' class='start-battle' type="submit">Start Battle</button>
   </form>
 </body>
 </html>

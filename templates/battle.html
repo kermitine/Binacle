@@ -54,6 +54,20 @@
     {% endfor %}
   {% endif %}
 
+
+
+  <div class="row">
+  <div class="column">
+    <img src="{{ friendly_sprites[0] }}" alt="pokemon1" style="width:95%">
+  </div>
+  <div class="column">
+    <img src="{{ friendly_sprites[1] }}" alt="pokemon2" style="width:95%">
+  </div>
+  <div class="column">
+    <img src="{{ friendly_sprites[2] }}" alt="pokemon3" style="width:95%">
+  </div>
+</div>
+
   <br><a href="{{ url_for('reset') }}">Restart Entire Battle</a>
 </body>
 </html>

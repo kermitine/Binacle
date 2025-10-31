@@ -1,11 +1,11 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9fbff;
+    background-color: #3b68c3;
     margin: 40px;
     color: #222;
 }
 h1 {
-    color: #3b4cca;
+    color: #000000;
 }
 table {
     border-collapse: collapse;
@@ -26,4 +26,40 @@ button {
 }
 button:hover {
     background-color: #f2b807;
+}
+
+.fieldset-container {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.start-battle {
+    margin-left: 20px;
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+#fontone {
+    font-family: Bahnschrift;
+
+}
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
 }

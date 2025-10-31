@@ -23,7 +23,9 @@ def get_pokemon_info(pokemon_name):
         return {
             "name": data["name"],
             "types": [t["type"]["name"] for t in data["types"]],
+            'sprite_url': data['sprites']['front_default']
         }
+    
     return None
 
 
@@ -45,7 +47,8 @@ def initialize_pokemon(name, moveset_string, is_enemy):
     if not info:
         return None
 
-    pokemon = {"name": info["name"], "types": info["types"]}
+    pokemon = {"name": info["name"], "types": info["types"], 'sprite_url': info['sprite_url']}
+    print(pokemon['sprite_url'])
 
     if not is_enemy:
         moves = extract_moves(moveset_string)
@@ -75,11 +78,11 @@ def index():
             moves = request.form.get(f"moves{i}")
 
             if not name or not moves:
-                return render_template("index.html", error="Please fill out all Pokémon and moves!")
+                return render_template("index.html", error="Please fill out all Pokémon and moves!", binacle_version=version)
 
             p = initialize_pokemon(name, moves, False)
             if not p:
-                return render_template("index.html", error=f"Could not load Pokémon '{name}'. Please check spelling.")
+                return render_template("index.html", error=f"Could not load Pokémon '{name}'. Please check spelling.", binacle_version=version)
             friendly_team.append(p)
 
         session["friendly_team"] = friendly_team
@@ -87,7 +90,7 @@ def index():
         return redirect(url_for("battle"))
 
     # 🟩 IMPORTANT: Always return something on GET
-    return render_template("index.html")
+    return render_template("index.html", binacle_version=version)
 
 
 @app.route("/battle", methods=["GET", "POST"])
@@ -109,7 +112,7 @@ def battle():
         enemy_name = request.form["enemy_name"]
         enemy = initialize_pokemon(enemy_name, None, True)
         if not enemy:
-            return render_template("battle.html", error="Could not load enemy Pokémon!", enemies=enemy_list)
+            return render_template("battle.html", error="Could not load enemy Pokémon!", enemies=enemy_list, binacle_version=version)
 
         enemy_list.append(enemy)
         session["enemy_list"] = enemy_list
@@ -130,7 +133,7 @@ def battle():
         results.sort(key=lambda r: r["multiplier"], reverse=True)
         all_results.append({"enemy": enemy, "results": results})
 
-    return render_template("battle.html", enemies=enemy_list, all_results=all_results)
+    return render_template("battle.html", enemies=enemy_list, all_results=all_results, binacle_version=version, friendly_sprites=[friendly_team[0]['sprite_url'], friendly_team[1]['sprite_url'], friendly_team[2]['sprite_url']])
 
 
 @app.route("/reset")
