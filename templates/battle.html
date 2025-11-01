@@ -5,7 +5,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1 id="fontone">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
+  <div class="header">
+  <h1 id="fontone" class="headertext" style="margin-top: 0px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
+  </div>
 
   {% if error %}
     <p style="color:red">{{ error }}</p>
@@ -22,7 +24,7 @@
   {% else %}
     <p><b>All 3 enemy Pokémon entered!</b></p>
   {% endif %}
-
+<div style="margin-left: 20px;">
   {% if enemies %}
     <h3 id="fontone">Enemies entered so far:</h3>
     <ul>
@@ -34,7 +36,7 @@
       <button type="submit" name="reset_enemies" id="fontone" class="start-battle" style="font-size: 18px;">Reset Enemies</button>
     </form>
   {% endif %}
-
+</div>
   {% if all_results %}
     <hr>
     <h2 id="fontone">Battle Results</h2>

@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #3b68c3;
-    margin: 40px;
+    margin: 0px;
     color: #222;
 }
 h1 {
@@ -79,4 +79,11 @@ button:hover {
 .restartbattle:hover {
     background-color: #f2b807;
 
+}
+
+.header {
+    background-color: white;
+    width: 100%;
+    padding: 20px;
+    padding-bottom: 1px;
 }
