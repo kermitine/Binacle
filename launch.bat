@@ -1,2 +1,2 @@
 @echo off
-py -m binacle.binacle
+py app.py
