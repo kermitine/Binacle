@@ -3,10 +3,12 @@
 <head>
   <title>Binacle | Team Setup</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
   <div class="header">
-  <h1 id="fontone" class='headertext' style="margin-top: 0px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
+  <h1 id="fontone" class='headertext' style="margin-top: 20px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
+  <img src="{{ url_for('static', filename='binacle.png') }}" alt="Logo">
   </div>
   {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
   <form method="POST">

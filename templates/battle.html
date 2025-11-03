@@ -3,10 +3,12 @@
 <head>
   <title>Binacle | Battle</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
   <div class="header">
-  <h1 id="fontone" class="headertext" style="margin-top: 0px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
+  <h1 id="fontone" class='headertext' style="margin-top: 20px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
+  <img src="{{ url_for('static', filename='binacle.png') }}" alt="Logo">
   </div>
 
   {% if error %}
@@ -39,8 +41,11 @@
 </div>
   {% if all_results %}
     <hr>
+
+    <div style="margin-left: 20px; padding-left: 40px;">
+
     <h2 id="fontone">Battle Results</h2>
-    {% for block in all_results %}
+    {% for block in all_results|reverse %}
       <h3 id="fontone">Best Moves vs {{ block.enemy.name.title() }}</h3>
       <table border="1" cellpadding="5" style="background-color: white;">
         <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
@@ -63,7 +68,13 @@
   <img src='{{ friendly_sprites[0] }}'>
   <img src='{{ friendly_sprites[1] }}'>
   <img src='{{ friendly_sprites[2] }}'>
+
+
   <br>
   <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle">Restart Entire Battle</a>
+  </div>
+
+  
+
 </body>
 </html>

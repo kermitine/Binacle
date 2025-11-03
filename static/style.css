@@ -86,4 +86,14 @@ button:hover {
     width: 100%;
     padding: 20px;
     padding-bottom: 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header img {
+    height: 80px;
+    width: auto;
+    margin-right: 50px;
+    margin-bottom: 10px;
+
 }
