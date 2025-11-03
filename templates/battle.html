@@ -11,16 +11,9 @@
   <img src="{{ url_for('static', filename='binacle.png') }}" alt="Logo">
   </div>
 
-  {% if error %}
-    <p style="color:red">{{ error }}</p>
-  {% endif %}
 
   {% if enemies|length < 3 %}
 
-
-  {% if error %}
-  <p style="color:red; font-weight:bold;">{{ error }}</p>
-{% endif %}
 
 <br>
 <div style="margin-top: 20px; margin-left: 20px">
@@ -35,9 +28,12 @@
       <input type="text" name="enemy_name" required>
       <button id='fontone' class='start-battle' style='font-size: 18px;' type="submit">Analyze</button>
     </form>
+    {% if error %}
+    <p style="color:red; font-weight:bold;">{{ error }}</p>
+    {% endif %}
   </div>
   {% else %}
-    <p><b>All 3 enemy Pokémon entered!</b></p>
+    <p style="margin-left: 20px;"><b>All 3 enemy Pokémon entered!</b></p>
   {% endif %}
 <div style="margin-left: 20px;">
   {% if enemies %}
