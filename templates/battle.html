@@ -16,6 +16,12 @@
   {% endif %}
 
   {% if enemies|length < 3 %}
+
+
+  {% if error %}
+  <p style="color:red; font-weight:bold;">{{ error }}</p>
+{% endif %}
+
   <div class="fieldset-container">
     <form method="POST">
       <label id="fontone">Enter Opponent Pokémon #{{ enemies|length + 1 }}:</label>

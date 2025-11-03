@@ -23,9 +23,8 @@ def get_pokemon_info(pokemon_name):
         return {
             "name": data["name"],
             "types": [t["type"]["name"] for t in data["types"]],
-            'sprite_url': data['sprites']['front_default']
+            "sprite_url": data["sprites"]["front_default"]
         }
-    
     return None
 
 
@@ -45,14 +44,22 @@ def extract_moves(moveset):
 def initialize_pokemon(name, moveset_string, is_enemy):
     info = get_pokemon_info(name)
     if not info:
-        return None
+        return None  # 🟩 gracefully fail for invalid Pokémon name
 
-    pokemon = {"name": info["name"], "types": info["types"], 'sprite_url': info['sprite_url']}
-    print(f'got sprite {pokemon['sprite_url']}')
+    pokemon = {
+        "name": info["name"],
+        "types": info["types"],
+        "sprite_url": info["sprite_url"]
+    }
+    print(f"got sprite {pokemon['sprite_url']}")
 
     if not is_enemy:
         moves = extract_moves(moveset_string)
-        move_types = [get_move_info(m) for m in moves]
+        move_types = []
+        for m in moves:
+            move_type = get_move_info(m)
+            # 🟩 handle invalid move names gracefully
+            move_types.append(move_type if move_type else "unknown")
         pokemon["moves"] = moves
         pokemon["move_types"] = move_types
 
@@ -78,18 +85,27 @@ def index():
             moves = request.form.get(f"moves{i}")
 
             if not name or not moves:
-                return render_template("index.html", error="Please fill out all Pokémon and moves!", binacle_version=version)
+                return render_template(
+                    "index.html",
+                    error="Please fill out all Pokémon and moves!",
+                    binacle_version=version
+                )
 
             p = initialize_pokemon(name, moves, False)
             if not p:
-                return render_template("index.html", error=f"Could not load Pokémon '{name}'. Please check spelling.", binacle_version=version)
+                return render_template(
+                    "index.html",
+                    error=f"Could not load Pokémon '{name}'. Please check spelling.",
+                    binacle_version=version
+                )
+
             friendly_team.append(p)
 
         session["friendly_team"] = friendly_team
         session["enemy_list"] = []
         return redirect(url_for("battle"))
 
-    # 🟩 IMPORTANT: Always return something on GET
+    # Always return something on GET
     return render_template("index.html", binacle_version=version)
 
 
@@ -99,30 +115,36 @@ def battle():
     friendly_team = session.get("friendly_team")
     enemy_list = session.get("enemy_list", [])
 
+    # If user got here without selecting a team, redirect home
     if not friendly_team:
         return redirect(url_for("index"))
 
-    # Handle new enemy submission
+    error = None  # store any possible error message
+
     if request.method == "POST":
+        # Reset button pressed
         if "reset_enemies" in request.form:
-            # Reset only enemies
             session["enemy_list"] = []
             return redirect(url_for("battle"))
 
-        enemy_name = request.form["enemy_name"]
-        enemy = initialize_pokemon(enemy_name, None, True)
-        if not enemy:
-            return render_template("battle.html", error="Could not load enemy Pokémon!", enemies=enemy_list, binacle_version=version)
+        # New enemy submitted
+        enemy_name = request.form.get("enemy_name", "").strip()
+        if enemy_name:
+            enemy = initialize_pokemon(enemy_name, None, True)
+            if not enemy:
+                error = f"❌ Could not find Pokémon '{enemy_name}'. Please check spelling!"
+            else:
+                enemy_list.append(enemy)
+                session["enemy_list"] = enemy_list
 
-        enemy_list.append(enemy)
-        session["enemy_list"] = enemy_list
-
-    # Build results for all entered enemies
+    # Build results for all enemies currently in list
     all_results = []
     for enemy in enemy_list:
         results = []
         for f in friendly_team:
             for move, move_type in zip(f["moves"], f["move_types"]):
+                if move_type == "unknown":
+                    continue
                 multiplier = calculate_weakness_multiplier(enemy["types"], move_type)
                 results.append({
                     "pokemon": f["name"].title(),
@@ -133,7 +155,22 @@ def battle():
         results.sort(key=lambda r: r["multiplier"], reverse=True)
         all_results.append({"enemy": enemy, "results": results})
 
-    return render_template("battle.html", enemies=enemy_list, all_results=all_results, binacle_version=version, friendly_sprites=[friendly_team[0]['sprite_url'], friendly_team[1]['sprite_url'], friendly_team[2]['sprite_url']])
+    # Always reverse (newest first)
+    all_results.reverse()
+
+    # 🟩 CRITICAL FIX: Always return a response even if nothing happens
+    return render_template(
+        "battle.html",
+        enemies=enemy_list,
+        all_results=all_results,
+        error=error,
+        binacle_version=version,
+        friendly_sprites=[
+            friendly_team[0]["sprite_url"],
+            friendly_team[1]["sprite_url"],
+            friendly_team[2]["sprite_url"]
+        ]
+    )
 
 
 @app.route("/reset")
