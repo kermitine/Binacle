@@ -52,28 +52,34 @@
 
     <h2 id="fontone">Battle Results</h2>
     {% for block in all_results %}
-      <h3 id="fontone">Best Moves vs {{ block.enemy.name.title() }}</h3>
-      <table border="1" cellpadding="5" style="background-color: white;">
-        <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
-        {% for r in block.results %}
-          <tr>
-            <td id="fontone">{{ loop.index }}</td>
-            <td id="fontone">{{ r.pokemon }}</td>
-            <td id="fontone">{{ r.move }}</td>
-            <td id="fontone">{{ r.type }}</td>
-            <td id="fontone">x{{ '%.2f'|format(r.multiplier) }}</td>
-          </tr>
-        {% endfor %}
-      </table>
-      <br>
+  <div style="display: flex; align-items: center; gap: 20px; margin-top: 20px;">
+    <img src="{{ block.enemy.sprite_url }}" alt="{{ block.enemy.name }}" 
+         style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+    <h3 id="fontone" style="margin: 0;">Best Moves vs {{ block.enemy.name.title() }}</h3>
+  </div>
+
+  <table border="1" cellpadding="5" style="background-color: white; margin-top: 10px;">
+    <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
+    {% for r in block.results %}
+      <tr>
+        <td id="fontone">{{ loop.index }}</td>
+        <td id="fontone">{{ r.pokemon }}</td>
+        <td id="fontone">{{ r.move }}</td>
+        <td id="fontone">{{ r.type }}</td>
+        <td id="fontone">x{{ '%.2f'|format(r.multiplier) }}</td>
+      </tr>
     {% endfor %}
+  </table>
+  <br>
+{% endfor %}
+
   {% endif %}
 
 
 
-  <img src='{{ friendly_sprites[0] }}'>
-  <img src='{{ friendly_sprites[1] }}'>
-  <img src='{{ friendly_sprites[2] }}'>
+  <img src='{{ friendly_sprites[0] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+  <img src='{{ friendly_sprites[1] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+  <img src='{{ friendly_sprites[2] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
 
 
   <br>
