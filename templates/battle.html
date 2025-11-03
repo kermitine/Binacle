@@ -51,7 +51,7 @@
     <div style="margin-left: 20px; padding-left: 40px;">
 
     <h2 id="fontone">Battle Results</h2>
-    {% for block in all_results|reverse %}
+    {% for block in all_results %}
       <h3 id="fontone">Best Moves vs {{ block.enemy.name.title() }}</h3>
       <table border="1" cellpadding="5" style="background-color: white;">
         <tr><th>#</th><th>Pokémon</th><th>Move</th><th>Type</th><th>Effectiveness</th></tr>
