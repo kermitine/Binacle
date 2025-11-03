@@ -22,6 +22,13 @@
   <p style="color:red; font-weight:bold;">{{ error }}</p>
 {% endif %}
 
+<br>
+<div style="margin-top: 20px; margin-left: 20px">
+<img src='{{ friendly_sprites[0] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+<img src='{{ friendly_sprites[1] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+<img src='{{ friendly_sprites[2] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+</div>
+
   <div class="fieldset-container">
     <form method="POST">
       <label id="fontone">Enter Opponent Pokémon #{{ enemies|length + 1 }}:</label>
@@ -37,18 +44,21 @@
     <h3 id="fontone">Enemies entered so far:</h3>
     <ul>
       {% for e in enemies %}
-        <li id="fontone">{{ e.name.title() }} ({{ e.types|join(', ') }})</li>
-      {% endfor %}
+  <h3 id="fontone" style="margin: 6px 0;">
+    {{ e.name.title() }} ({{ e.types|join(', ') }})
+  </h3>
+{% endfor %}
+
     </ul>
     <form method="POST">
-      <button type="submit" name="reset_enemies" id="fontone" class="start-battle" style="font-size: 18px;">Reset Enemies</button>
+      <button type="submit" name="reset_enemies" id="fontone" class="start-battle" style="font-size: 18px; margin-left: 0px;">Reset Enemies</button>
     </form>
   {% endif %}
 </div>
   {% if all_results %}
     <hr>
 
-    <div style="margin-left: 20px; padding-left: 40px;">
+    <div style="margin-left: 20px">
 
     <h2 id="fontone">Battle Results</h2>
     {% for block in all_results %}
@@ -77,14 +87,12 @@
 
 
 
-  <img src='{{ friendly_sprites[0] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
-  <img src='{{ friendly_sprites[1] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
-  <img src='{{ friendly_sprites[2] }}' style="width: 96px; height: 96px; image-rendering: pixelated; background-color: white; border-radius: 10px; padding: 5px;">
+  
 
 
   <br>
-  <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle">Restart Entire Battle</a>
   </div>
+  <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle" style="margin-left: 20px">Restart Entire Battle</a>
 
   
 
