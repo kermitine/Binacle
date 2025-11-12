@@ -29,12 +29,12 @@
       <button id='fontone' class='start-battle' style='font-size: 18px;' type="submit">Analyze</button>
     </form>
     {% if error %}
-    <p id='fontone' style="color:red; font-weight:bold;">{{ error }}</p>
+    <h3 id='fontone' style="color:red; font-weight:bold;">{{ error }}</h3>
     {% endif %}
   </div>
   {% else %}
   <div class="fieldset-container">
-    <p id='fontone'><b>All 3 enemy Pokémon entered!</b></p>
+    <h3 style='margin: 0px; margin-bottom: 10px;'id='fontone'><b>All 3 enemy Pokémon entered!</b></h3>
     </div>
   {% endif %}
 
@@ -91,7 +91,7 @@
 
   <br>
   </div>
-  <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle" style="margin-left: 20px">Restart Entire Battle</a>
+  <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle" style="margin-left: 20px; font-size: 18px; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px;">Restart Entire Battle</a>
 
   
 
