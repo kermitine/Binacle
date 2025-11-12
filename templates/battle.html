@@ -33,11 +33,14 @@
     {% endif %}
   </div>
   {% else %}
-    <p id='fontone' style="margin-left: 20px;"><b>All 3 enemy Pokémon entered!</b></p>
+  <div class="fieldset-container">
+    <p id='fontone'><b>All 3 enemy Pokémon entered!</b></p>
+    </div>
   {% endif %}
-<div style="margin-left: 20px;">
+
   {% if enemies %}
-    <h3 id="fontone">Enemies entered so far:</h3>
+  <div class="fieldset-container">
+    <h3 style="margin-top: 0px;" id="fontone">Enemies entered so far:</h3>
     <ul>
       {% for e in enemies %}
   <h3 id="fontone" style="margin: 6px 0;">
