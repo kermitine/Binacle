@@ -4,4 +4,4 @@ is apart of the Binacle project, and licensed under
 the GNU AGPL-3.0-or-later. See LICENSE and README for more details.
 """
 
-version = '1.1.9'
+version = '1.1.10'
