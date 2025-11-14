@@ -23,7 +23,7 @@ def get_pokemon_info(pokemon_name):
         return {
             "name": data["name"],
             "types": [t["type"]["name"] for t in data["types"]],
-            "sprite_url": data["sprites"]["front_default"]
+            "sprite_url": data["sprites"]["other"]["showdown"]["front_default"]
         }
     return None
 
