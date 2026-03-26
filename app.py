@@ -182,4 +182,4 @@ def reset():
 
 if __name__ == '__main__':
     print('starting flask server...')
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
