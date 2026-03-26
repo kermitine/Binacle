@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  binacle-pkmngo:
+    build: .
+    container_name: binacle-pkmngo
+
+    ports:
+      - "3005:5000"
+
+    volumes:
+      - .:/app   # live reload (optional but useful)
+
+    restart: unless-stopped
