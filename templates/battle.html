@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Binacle | Battle</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
+<body{% if embed_mode %} class="embed-mode"{% endif %}>
   <div class="header">
   <h1 id="fontone" class='headertext' style="margin-top: 20px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
   <img src="{{ url_for('static', filename='binacle.png') }}" alt="Logo">
@@ -23,7 +25,7 @@
 </div>
 
   <div class="fieldset-container">
-    <form method="POST">
+    <form method="POST" action="{{ embed_url_for('battle') }}">
       <label id="fontone">Enter Opponent Pokémon #{{ enemies|length + 1 }}:</label>
       <input type="text" name="enemy_name" required>
       <button id='fontone' class='start-battle' style='font-size: 18px;' type="submit">Analyze</button>
@@ -49,7 +51,7 @@
 {% endfor %}
 
     </ul>
-    <form method="POST">
+    <form method="POST" action="{{ embed_url_for('battle') }}">
       <button type="submit" name="reset_enemies" id="fontone" class="start-battle" style="font-size: 18px; margin-left: 0px;">Reset Enemies</button>
     </form>
   {% endif %}
@@ -92,9 +94,11 @@
 
   <br>
   </div>
-  <br><a href="{{ url_for('reset') }}" id="fontone" class="restartbattle" style="margin-left: 20px; font-size: 18px; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px;">Restart Entire Battle</a>
+  <br><a href="{{ embed_url_for('reset') }}" id="fontone" class="restartbattle" style="margin-left: 20px; font-size: 18px; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px;">Restart Entire Battle</a>
 
-  
+  {% if embed_mode %}
+  <script src="{{ url_for('static', filename='embed.js') }}"></script>
+  {% endif %}
 
 </body>
 </html>

@@ -4,13 +4,83 @@ This file is part of the Binacle Web App.
 Licensed under the GNU AGPL-3.0-or-later.
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session
+import os
+
+from flask import (
+    Flask,
+    has_request_context,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
+from flask.sessions import SecureCookieSessionInterface
 import requests
 from data.data import *
 from data.multipliers import *
 
 app = Flask(__name__)
 app.secret_key = "binacle_secret_key"  # required for session storage
+
+
+def is_embed_request():
+    return has_request_context() and request.values.get("embed") == "1"
+
+
+def embed_url_for(endpoint, **values):
+    if is_embed_request():
+        values.setdefault("embed", "1")
+    return url_for(endpoint, **values)
+
+
+class EmbedSessionInterface(SecureCookieSessionInterface):
+    def get_cookie_samesite(self, app):
+        if is_embed_request():
+            return "None"
+        return super().get_cookie_samesite(app)
+
+    def get_cookie_secure(self, app):
+        if is_embed_request():
+            return True
+        return super().get_cookie_secure(app)
+
+
+app.session_interface = EmbedSessionInterface()
+
+
+@app.context_processor
+def inject_embed_helpers():
+    return {
+        "embed_mode": is_embed_request(),
+        "embed_url_for": embed_url_for,
+    }
+
+
+@app.after_request
+def apply_embed_headers(response):
+    if not is_embed_request():
+        return response
+
+    response.headers.pop("X-Frame-Options", None)
+
+    frame_ancestors = os.environ.get("BINACLE_FRAME_ANCESTORS", "*")
+    frame_policy = f"frame-ancestors {frame_ancestors}"
+    current_csp = response.headers.get("Content-Security-Policy")
+
+    if current_csp:
+        policies = [
+            policy.strip()
+            for policy in current_csp.split(";")
+            if policy.strip()
+            and not policy.strip().lower().startswith("frame-ancestors")
+        ]
+        policies.append(frame_policy)
+        response.headers["Content-Security-Policy"] = "; ".join(policies)
+    else:
+        response.headers["Content-Security-Policy"] = frame_policy
+
+    return response
 
 
 # --- Core Binacle logic ---
@@ -75,6 +145,7 @@ def calculate_weakness_multiplier(defending_types, attacking_type):
 
 # --- Flask routes ---
 
+@app.route("/.", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Step 1: Enter 3 friendly Pokémon"""
@@ -103,7 +174,7 @@ def index():
 
         session["friendly_team"] = friendly_team
         session["enemy_list"] = []
-        return redirect(url_for("battle"))
+        return redirect(embed_url_for("battle"))
 
     # Always return something on GET
     return render_template("index.html", binacle_version=version)
@@ -117,7 +188,7 @@ def battle():
 
     # If user got here without selecting a team, redirect home
     if not friendly_team:
-        return redirect(url_for("index"))
+        return redirect(embed_url_for("index"))
 
     error = None  # store any possible error message
 
@@ -125,7 +196,7 @@ def battle():
         # Reset button pressed
         if "reset_enemies" in request.form:
             session["enemy_list"] = []
-            return redirect(url_for("battle"))
+            return redirect(embed_url_for("battle"))
 
         # New enemy submitted
         enemy_name = request.form.get("enemy_name", "").strip()
@@ -177,7 +248,7 @@ def battle():
 def reset():
     """Completely reset (team + enemies)"""
     session.clear()
-    return redirect(url_for("index"))
+    return redirect(embed_url_for("index"))
 
 
 if __name__ == '__main__':

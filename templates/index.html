@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Binacle | Team Setup</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
+<body{% if embed_mode %} class="embed-mode"{% endif %}>
   <div class="header">
   <h1 id="fontone" class='headertext' style="margin-top: 20px;">Binacle: POGO GBL Helper V{{binacle_version}}</h1>
   <img src="{{ url_for('static', filename='binacle.png') }}" alt="Logo">
@@ -18,7 +20,7 @@
       </div>
     {% endif %}
 
-  <form method="POST">
+  <form method="POST" action="{{ embed_url_for('index') }}">
     {% for i in range(1,4) %}
     <div class="fieldset-container" style="padding-bottom: 10px;">
         <fieldset>
@@ -57,9 +59,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-
-
-
+{% if embed_mode %}
+  <script src="{{ url_for('static', filename='embed.js') }}"></script>
+{% endif %}
 
 </body>
 </html>
